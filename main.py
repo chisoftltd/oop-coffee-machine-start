@@ -5,12 +5,8 @@ from money_machine import MoneyMachine
 
 menu = Menu()
 coffee_maker = CoffeeMaker()
-# print(coffee_maker.report())
-# coffee_maker.report()
 money_machine = MoneyMachine()
-# print(money_machine.report())
 
-menuitem = MenuItem("latte", 200, 300, 100, 1.5)
 is_no = True
 while is_no:
     options = menu.get_items()
@@ -23,4 +19,8 @@ while is_no:
         money_machine.report()
     else:
         drink = menu.find_drink(choice)
-        print(drink)
+        if coffee_maker.is_resource_sufficient(drink):
+            payment = money_machine.process_coins()
+            print(f"Your {choice} cost {drink.cost}")
+            if money_machine.make_payment(drink.cost):
+                coffee_maker.make_coffee(drink)
